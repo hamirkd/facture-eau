@@ -2,10 +2,8 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PersonnelService } from 'app/core/services/personnel.service';
 import { UtilisateurService } from 'app/core/services/utilisateur.service'; 
 import { UserService } from 'app/core/user/user.service';
-import { Personnel } from 'app/models/personnel.model';
 import { Utilisateur } from 'app/models/utilisateur.model';
  
 @Component({
@@ -20,15 +18,13 @@ export class AddUtilisateurComponent implements OnInit  {
   action: 'edit' | 'new' = 'new';
   user:any;
   roles = ['USER', 'SCOLARITE','DIRECTEUR','ENSEIGNANT','SECRETARIAT'];
-  listePersonnel:Personnel[]=[];
   formFieldHelpers: string[] = [''];
   constructor(
       private _formBuilder: FormBuilder,
       @Inject(MAT_DIALOG_DATA) private _data: any,
       public matDialogRef: MatDialogRef<AddUtilisateurComponent>,
       private _utilisateurService:UtilisateurService,
-      private _userService:UserService,
-      private personnelService:PersonnelService,private _snackBar: MatSnackBar
+      private _userService:UserService, private _snackBar: MatSnackBar
   ) {
       this.action = _data.action;
       this.utilisateur = new Utilisateur(_data.utilisateur);
@@ -39,9 +35,6 @@ export class AddUtilisateurComponent implements OnInit  {
   utilisateurForm: FormGroup;
 
   ngOnInit(): void {
-    this.personnelService.getAlls().subscribe(data=>{
-      this.listePersonnel = data as Personnel[];
-    },err=>this.listePersonnel = []);
   }
   /**
    * Create user form

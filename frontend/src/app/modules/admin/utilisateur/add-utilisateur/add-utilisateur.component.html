@@ -76,13 +76,6 @@
                         Role Obligatoire
                     </mat-error>
                 </mat-form-field>
-
-                <mat-form-field class="w-1/2 pl-2">
-                    <mat-label>Personnel </mat-label>
-                    <mat-select [formControlName]="'personnel_id'" [required]="utilisateurForm.get('role').value !=='ADMIN'">
-                        <mat-option [value]="cl.id" *ngFor="let cl of listePersonnel">{{cl.nom}} {{cl.prenom}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
 
             <div class="flex" *ngIf="action=='new'">

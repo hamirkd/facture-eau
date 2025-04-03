@@ -52,11 +52,17 @@ Route::middleware('auth:api')->group(function() {
     Route::post('versements/getVersementByAnneeOrAllGroupeByImpression', [VersementController::class,'getVersementByAnneeOrAllGroupeByImpression']);
     Route::post('versements/cancelle', [VersementController::class,'cancelle']);
     Route::post('versements/restore', [VersementController::class,'restore']);
+    
+    Route::post('facture/restore', 'App\Http\Controllers\FactureController@restore');
+    Route::post('facture/cancelle', 'App\Http\Controllers\FactureController@cancelle');
+    Route::post('facture/nouvelle', 'App\Http\Controllers\FactureController@nouvelle');
 
-    Route::post('clients/uploadAvatar', 'App\Http\Controllers\ClientController@uploadAvatar');
-    Route::get('clients/removeAvatar/{client_id}', 'App\Http\Controllers\ClientController@removeAvatar');
-    Route::get('clients/getAvatar/{client_id}', 'App\Http\Controllers\ClientController@getAvatar');
-    Route::apiResource('clients', 'App\Http\Controllers\ClientController');
+    Route::apiResource('facture', 'App\Http\Controllers\FactureController');
+    
+    Route::post('client/uploadAvatar', 'App\Http\Controllers\ClientController@uploadAvatar');
+    Route::get('client/removeAvatar/{client_id}', 'App\Http\Controllers\ClientController@removeAvatar');
+    Route::get('client/getAvatar/{client_id}', 'App\Http\Controllers\ClientController@getAvatar');
+    Route::apiResource('client', 'App\Http\Controllers\ClientController');
 
     Route::apiResource('media', 'App\Http\Controllers\MediaController');
     Route::post('media/getMediaByTypeAndId', 'App\Http\Controllers\MediaController@getMediaByTypeAndId');

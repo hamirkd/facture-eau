@@ -8,8 +8,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "prod": "ng serve --proxy-config proxy.conf.json --open",
-        "dev": "ng serve --proxy-config proxy.conf.local.json --open",
+        "prod": "ng serve --open",
+        "dev": "ng serve --open",
         "build": "ng build",
         "build-prod": "ng build --configuration production",
         "watch": "ng build --watch --configuration development",

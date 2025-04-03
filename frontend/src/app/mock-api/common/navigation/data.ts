@@ -16,68 +16,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
         roles: 'ADMIN,USER,SECRETAIRE,DIRECTEUR'
     },
     {
-        id: 'pedagogie',
-        title: 'pedagogie',
+        id: 'facturation',
+        title: 'Facturation',
         type: 'basic',
         icon: 'iconsmind:students',
-        link: '/#',
+        link: '/facturation',
         roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR,SECRETAIRE'
     },
     {
-        id: 'scolarite',
-        title: 'scolarite',
-        type: 'basic',
-        icon: 'heroicons_solid:database',
-        link: '/#',
-        roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR,SECRETAIRE'
-    },
-    {
-        id: 'expression',
-        title: 'Expression Besoin',
-        type: 'basic',
-        icon: 'iconsmind:university',
-        link: '/#',
-        roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR,SECRETAIRE'
-    },
-    {
-        id: 'vehicule',
-        title: 'Véhicule',
-        type: 'basic',
-        icon: 'iconsmind:car',
-        link: '/#',
-        roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR,SECRETAIRE'
-    },
-    {
-        id: 'personnel',
-        title: 'Personnel',
+        id: 'client',
+        title: 'Client',
         type: 'basic',
         icon: 'iconsmind:business_manwoman',
-        link: '/personnel',
+        link: '/client',
         roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR,SECRETAIRE'
-    },
-    {
-        id: 'contrat',
-        title: 'Contrat',
-        type: 'basic',
-        icon: 'iconsmind:folder_archive',
-        link: '/personnel/contrat',
-        roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR,SECRETAIRE'
-    },
-    {
-        id: 'patrimoine',
-        title: 'Patrimoine',
-        type: 'basic',
-        icon: 'iconsmind:university',
-        link: '/#',
-        roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR'
-    },
-    {
-        id: 'equipement',
-        title: 'Equipement',
-        type: 'basic',
-        icon: 'iconsmind:laptop',
-        link: '/#',
-        roles: 'USER,ADMIN,SCOLARITE,DIRECTEUR'
     },
     {
         id: 'utilisateur',

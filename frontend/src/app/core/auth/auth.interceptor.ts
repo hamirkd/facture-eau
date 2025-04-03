@@ -4,7 +4,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
-import { AnneeService } from '../services/annee.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor
@@ -12,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor
     /**
      * Constructor
      */
-    constructor(private _authService: AuthService,private _anneeScolaireService:AnneeService)
+    constructor(private _authService: AuthService)
     {
     }
 
@@ -40,12 +39,6 @@ export class AuthInterceptor implements HttpInterceptor
             newReq = req.clone({
                 headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
             });
-            if (this._anneeScolaireService.activeAnnee && this._anneeScolaireService.activeAnnee.id) {
-                newReq = newReq.clone({
-                    headers: newReq.headers
-                        .set('annee_id', this._anneeScolaireService.activeAnnee.id + '')
-                });
-            }
         }
 
         // Response

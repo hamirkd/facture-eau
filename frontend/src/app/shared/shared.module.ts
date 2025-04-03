@@ -7,7 +7,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatOptionModule, MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     imports: [
@@ -61,7 +62,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatInputModule,
         MatDialogModule,
         MatOptionModule,
-        MatSelectModule,MatSnackBarModule
+        MatSelectModule,MatSnackBarModule,
+        MatNativeDateModule, MatMomentDateModule
 
     ]
 })

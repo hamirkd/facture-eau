@@ -24,6 +24,8 @@ class Client extends Model
       'typeclient',
       'lieunais',
       'file_name',
+      'cnib',
+      'numerocompteur',
       'updated_by',
       'created_by',
     ];

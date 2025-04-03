@@ -12,6 +12,7 @@ class Tarif extends Model
     * @var array
     */
    protected $fillable = [
+    'typetarif',
     'montant',
     'redevance',
     'autres_frais',

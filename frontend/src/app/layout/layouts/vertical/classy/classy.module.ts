@@ -15,7 +15,6 @@ import { ShortcutsModule } from 'app/layout/common/shortcuts/shortcuts.module';
 import { UserModule } from 'app/layout/common/user/user.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { ClassyLayoutComponent } from 'app/layout/layouts/vertical/classy/classy.component';
-import { AnneesModule } from 'app/layout/common/annees/annees.module';
 
 @NgModule({
     declarations: [
@@ -25,7 +24,7 @@ import { AnneesModule } from 'app/layout/common/annees/annees.module';
         HttpClientModule,
         RouterModule,
         MatButtonModule,
-        MatDividerModule,AnneesModule,
+        MatDividerModule,
         MatIconModule,
         MatMenuModule,
         FuseFullscreenModule,

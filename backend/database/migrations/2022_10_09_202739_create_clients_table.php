@@ -25,6 +25,9 @@ class CreateClientsTable extends Migration
             $table->enum('genre', ['HOMME', 'FEMME', 'ENTREPRISE']); 
             $table->enum('typeclient', ['ORDINAIRE','ENTREPRISE']);
             $table->string('file_name',255);
+            $table->string('numerocompteur',30);
+            $table->string('cnib',30);
+            $table->string('ancienindex',30);
             $table->integer('updated_by')->nullable();
             $table->integer('created_by')->nullable();
             $table->softDeletes();

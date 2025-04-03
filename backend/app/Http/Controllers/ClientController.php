@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Personnel;
-use App\Models\PersonnelAll;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
-class PersonnelController extends Controller
+class ClientController extends Controller
 {
     
     /**
@@ -16,7 +15,7 @@ class PersonnelController extends Controller
      */
     public function index()
     {
-        return Personnel::orderBy('nom','ASC')->orderBy('prenom','ASC')->get();
+        return Client::orderBy('nom','ASC')->orderBy('prenom','ASC')->get();
     }
  
 
@@ -28,9 +27,9 @@ class PersonnelController extends Controller
      */
     public function store(Request $request)
     {
-        Personnel::create(MyFunction::audit($request->all()));
+        Client::create(MyFunction::audit($request->all()));
         return response()->json([
-            'message' => 'Un nouveau personnel a été ajoutée',
+            'message' => 'Un nouveau client a été ajoutée',
             'status' => 200
         ], 200);
     }
@@ -38,12 +37,12 @@ class PersonnelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Personnel  $personnel
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(PersonnelAll $personnel)
+    public function show(Client $client)
     {
-        return $personnel;
+        return $client;
     } 
 
 
@@ -51,54 +50,54 @@ class PersonnelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Personnel  $personnel
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Personnel $personnel)
+    public function update(Request $request, Client $client)
     {
-        $personnel->update(MyFunction::audit($request->all()));
+        $client->update(MyFunction::audit($request->all()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Personnel  $personnel
+     * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Personnel $personnel)
+    public function destroy(Client $client)
     {
-        $personnel->delete();
+        $client->delete();
     }
 
     
     public function uploadAvatar(Request $request){
-        $personnel = Personnel::find($request->personnel_id);
+        $client = Client::find($request->client_id);
         $request->validate([
             'uploadFile' => 'required|mimes:jpeg,jpg,png,xls,pdf|max:10048'
             ]);
             if($request->file()) {
                 $fileName = time().'.'.$request->uploadFile->extension();
                 $filePath = $request->file('uploadFile')->storeAs('uploads/PERSONNEL', $fileName, 'public');
-                $personnel->file_name = $fileName;
-                $this->removeAvatar($request->personnel_id);
-                $personnel->update();
+                $client->file_name = $fileName;
+                $this->removeAvatar($request->client_id);
+                $client->update();
             }
         
-        return $personnel;
+        return $client;
     }
 
-    public function getAvatar($personnel_id){
-        $personnel = Personnel::find($personnel_id);
-        return response()->file('..\storage\app\public\uploads\\PERSONNEL\\'.$personnel->file_name);
+    public function getAvatar($client_id){
+        $client = Client::find($client_id);
+        return response()->file('..\storage\app\public\uploads\\PERSONNEL\\'.$client->file_name);
     }
-    public function removeAvatar($personnel_id){
-        $personnel = Personnel::find($personnel_id);
+    public function removeAvatar($client_id){
+        $client = Client::find($client_id);
 
-        if($personnel->file_name!=null&&file_exists(storage_path('..\storage\app\public\uploads\\PERSONNEL\\'.$personnel->file_name)))
-        unlink(storage_path('..\storage\app\public\uploads\\PERSONNEL\\'.$personnel->file_name));
-        $personnel->file_name = null;
-        $personnel->update();
-        return $personnel;
+        if($client->file_name!=null&&file_exists(storage_path('..\storage\app\public\uploads\\PERSONNEL\\'.$client->file_name)))
+        unlink(storage_path('..\storage\app\public\uploads\\PERSONNEL\\'.$client->file_name));
+        $client->file_name = null;
+        $client->update();
+        return $client;
     }
     
 }
