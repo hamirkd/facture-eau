@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>{{'Affecter ['+inscriptionEleve.eleve.matricule+'] '+inscriptionEleve.eleve.nom+' '+inscriptionEleve.eleve.prenom+' à une autre salle'}}</h2>
+<mat-dialog-content class="  sm:p-6 w-200">
+
+    <form class=" " [formGroup]="eleveClasseAffectation">
+        <div class="flex flex-col w-full ">
+
+            <div class="flex">
+
+            </div>
+
+            <div class="flex">
+
+                <mat-form-field class="w-2/5 pr-2">
+                    <mat-label>Classe </mat-label>
+                    <mat-select [formControlName]="'classe_id'" required>
+                        <mat-option [value]="cl.id" *ngFor="let cl of listeClasse">{{cl.libelle}} [{{cl.code}}]</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-2/5 pl-2">
+                    <mat-label>Salle </mat-label>
+                    <mat-select [formControlName]="'salle_classe_id'" required>
+                        <mat-option [value]="cl.id" *ngFor="let cl of listeSalle">{{cl.libelle}} [{{cl.code}}]</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Annuler</button>
+    <button mat-button (click)="onSubmit()" [disabled]="!eleveClasseAffectation.valid">Affecter</button>
+</mat-dialog-actions>

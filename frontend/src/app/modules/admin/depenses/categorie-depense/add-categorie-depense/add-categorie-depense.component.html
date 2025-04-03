@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{action=='new'?'Ajouter une categorie':'Modifier la categorie '+categorieDepense.libelle}}</h2>
+<mat-dialog-content class="  sm:p-6 w-100">
+    <form class=" " [formGroup]="categorieDepenseForm">
+        <div class="flex flex-col w-full ">
+            <div class="flex">
+                <mat-form-field class="w-full pl-2">
+                    <mat-label>Libelle</mat-label>
+                    <input matInput [formControlName]="'libelle'" required>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Annuler</button>
+    <button mat-button (click)="onSubmit()" [disabled]="!categorieDepenseForm.valid">
+        {{action=='new'?'Enregister':'Modifier'}}</button>
+</mat-dialog-actions>

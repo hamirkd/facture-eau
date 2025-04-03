@@ -1,0 +1,205 @@
+<div class="flex flex-auto flex-col   min-w-0 border-r">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pr-6 pl-6 pt-1 pb-1   sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="['/personnel']" routerLinkActive="router-link-active">Personnels</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="['/personnel/contrat']" routerLinkActive="router-link-active">Contrat</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-default-500">Détail du contrat</a>
+                </div>
+            </div>
+            <!-- Title -->
+        </div>
+    </div>
+
+    <div class="flex-auto pr-6 pl-6">
+
+        <!-- Form -->
+        <div class="mt-8 sm:mt-12   pb-2 sm:p-6 sm:pb-2 shadow rounded-2xl bg-card mb-6" *ngIf="contrat">
+            <div class="space-y-1 flex">
+                <div class="flex flex-col w-full">
+                    <div class="mb-1 flex">
+                        <div class="text-2xl font-bold tracking-tight w-1/2">Information personnelle</div> 
+                        <div class="flex mt-2 w-1/2 text-right">
+                            <div class="flex w-1/3">
+                            <button mat-icon-button (click)="editer()" class="icon-size-5">
+                                <mat-icon
+                                    class="icon-size-4"
+                                    [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                            </button> 
+                            </div>
+                            <div class="flex w-1/3">
+                            <button mat-button (click)="generer()" class="hidden sm:inline-flex icon-size-h-5">
+                                <mat-icon
+                                    class="icon-size-4"
+                                    [svgIcon]="'heroicons_solid:cog'"></mat-icon>&nbsp;
+                                     <label for="générer un contrat" class="icon-size-h-4 cursor-pointer" style="font-size: small;">générer un contrat</label> 
+                            </button> 
+                            </div>
+                            <div class="flex w-1/3">
+                            <button mat-button (click)="rompre()" class="hidden sm:inline-flex icon-size-h-5">
+                                <mat-icon
+                                    class="icon-size-4"
+                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>&nbsp;
+                                     <label for="rompre" class="icon-size-h-4 cursor-pointer" style="font-size: small;">rompre</label> 
+                            </button> 
+                            </div>
+
+                           
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <div class="flex pt-2">
+                            <div class="w-1/2 pr-2">
+                                <label class="w-1/2">Numéro : </label>
+                                <label class="w-1/2">{{contrat?.numerocontrat}}</label>
+                            </div>
+                            <div class="w-1/2 pr-l">
+                                <label class="w-1/2">Date signature : </label>
+                                <label class="w-1/2">{{contrat?.datesignature | date:"dd/MM/YY"}}</label>
+                            </div>
+                            <div class="w-1/2 pr-2">
+                                <label class="w-1/2">Date contrat : </label>
+                                <label class="w-1/2">{{contrat?.datedebut | date :"dd/MM/YY"}} - {{contrat?.datefin | date :"dd/MM/YY"}}
+
+                                    <span>({{contrat?.duree}} mois)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <div class="flex pt-2">
+                            <div class="w-1/2 pr-2">
+                                <label class="w-1/2">Nom : </label>
+                                <label class="w-1/2">{{contrat?.personnel?.nom}}</label>
+                            </div>
+                            <div class="w-1/2 pr-l">
+                                <label class="w-1/2">E-mail : </label>
+                                <label class="w-1/2">{{contrat?.personnel?.email}}</label>
+                            </div>
+                            <div class="w-1/2 pr-2">
+                                <label class="w-1/2">Type : </label>
+                                <label class="w-1/2">{{contrat?.typecontrat}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <div class="flex pt-2">
+                            <div class="w-1/2 pr-l">
+                                <label class="w-1/2">Prénom(s) : </label>
+                                <label class="w-1/2">{{contrat?.personnel?.prenom}}</label>
+                            </div>
+                            <div class="w-1/2 pr-2">
+                                <label class="w-1/2">Téléphone : </label>
+                                <label class="w-1/2">{{contrat?.personnel?.telephone}}</label>
+                            </div>
+                            <div class="w-1/2 pr-l">
+                                <label class="w-1/2">Niveau recrutement : </label>
+                                <label class="w-1/2">{{contrat?.niveaurecrutement}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <div class="flex pt-2">
+                            <div class="w-1/2 pr-l">
+                                <label class="w-1/2">Service d'affectation : </label>
+                                <label class="w-1/2">{{contrat?.serviceAffectation?.libelle}}</label>
+                            </div>
+                            <div class="w-1/2 pr-2">
+                                <label class="w-1/2">Poste : </label>
+                                <label class="w-1/2">{{contrat?.poste?.libelle}}</label>
+                            </div>
+                            <div class="w-1/2 pr-l">
+                                <label class="w-1/2">Personne à prévenir : </label>
+                                <label class="w-1/2">{{contrat?.nomprenompersonneaprevenir}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <div class="flex pt-2">
+                            <span class="inline-flex items-center font-bold text-xs px-1.5 py-0.5 rounded-full tracking-wide bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
+                                <span class="leading-relaxed whitespace-nowrap">{{'modifié le'}} {{contrat?.updated_at|date : 'dd/MM/YYYY hh:mm:ss'}} par {{contrat?.userUpdate}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div> 
+
+            </div>
+        </div>
+ 
+        <div class="flex flex-col w-full mt-8 sm:mt-2   pb-0 sm:p-6  sm:pt-1 sm:pb-0 shadow rounded-2xl bg-card mb-6">
+
+            <div class="flex flex-col w-full">
+                <div class="flex pt-2">
+                    <div class="w-1/2">
+                        <label class="text-2xl font-bold tracking-tight">Documents</label>
+                    </div>
+
+                    <div class="flex w-1/2 pr-l text-right">
+
+                        <div class="w-2/3"></div>
+                        <div class="w-1/2">
+
+                        </div>
+
+                        <div class="w-1/2">
+                            <button class="hidden sm:inline-flex" mat-icon-button (click)="addDocument()">
+                                    <mat-icon class="text-red-900" style="color: white;" svgIcon="iconsmind:refresh" class="animate-spin-slow" *ngIf="data['btnadd']"></mat-icon> &nbsp;
+                                    <mat-icon class="text-red-900" style="color: white;" svgIcon="iconsmind:add" *ngIf="!data['btnadd']"></mat-icon> &nbsp;
+                                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex">
+                <table mat-table [dataSource]="dataSourceDocument" class="w-full" id="dvContainerdvContainer">
+                    <ng-container matColumnDef="type_documents">
+                        <th mat-header-cell *matHeaderCellDef> type_documents </th>
+                        <td mat-cell *matCellDef="let element"> {{element.type_documents}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="no">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="libelle_document">
+                        <th mat-header-cell *matHeaderCellDef> Libelle document </th>
+                        <td mat-cell *matCellDef="let element"> {{element.libelle_document}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+
+                        <td mat-cell *matCellDef="let element" class="flex text-right">
+
+                            <button class="hidden sm:inline-flex" mat-icon-button (click)="supprimerDocument(element)">
+                                <mat-icon class="text-red-900" style="color: white;" svgIcon="heroicons_solid:trash"></mat-icon> 
+                            </button>
+                            <button class="hidden sm:inline-flex" mat-icon-button (click)="imprimerDocument(element)">
+                                <mat-icon style="color: white;" svgIcon="iconsmind:refresh" class="animate-spin-slow" *ngIf="data['btno'+element.id]"></mat-icon> &nbsp;
+                                <mat-icon svgIcon="heroicons_solid:printer" *ngIf="!data['btno'+element.id]"></mat-icon> 
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef> Création </th>
+                        <td mat-cell *matCellDef="let element"> {{element.created_at|date:"dd/MM/YY"}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsDocument"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsDocument;"></tr>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>

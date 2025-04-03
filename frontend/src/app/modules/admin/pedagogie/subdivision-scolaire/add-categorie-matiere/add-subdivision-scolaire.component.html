@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{action=='new'?'Ajouter une Subdivision Scolaire':'Modifier la Subdivision Scolaire '+subdivisionScolaire.libelle}}</h2>
+<mat-dialog-content class="  sm:p-6 w-200">
+
+
+    <form class=" " [formGroup]="subdivisionScolaireForm">
+        <div class="flex flex-col w-full ">
+            <div class="flex">
+                <mat-form-field class="w-1/5 pr-2">
+                    <mat-label>code</mat-label>
+                    <input matInput [formControlName]="'code'" required [readonly]="action!='new'">
+                </mat-form-field>
+
+                <mat-form-field class="w-4/5 pl-2">
+                    <mat-label>Libelle</mat-label>
+                    <input matInput [formControlName]="'libelle'" required>
+                </mat-form-field>
+            </div>
+            <div class="flex sm:pt-6">
+                <mat-radio-group aria-label="Select an option" class="w-2/5 pr-2" [formControlName]="'lecture'">
+                    <mat-label class="w-2/5 pr-2">Lecture</mat-label>
+                    <mat-radio-button [value]="true" class="w-1/5 pr-2">OUI</mat-radio-button>
+                    <mat-radio-button [value]="false" class="w-1/5 pr-2">NON</mat-radio-button>
+                </mat-radio-group>
+
+            </div>
+            <div class="flex sm:pt-6">
+                <mat-radio-group aria-label="Select an option" class="w-2/5 pr-2" [formControlName]="'ecriture'">
+                    <mat-label class="w-2/5 pr-2">Ecriture</mat-label>
+                    <mat-radio-button [value]="true" class="w-1/5 pr-2"> OUI</mat-radio-button>
+                    <mat-radio-button [value]="false" class="w-1/5 pr-2">NON</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Annuler</button>
+    <button mat-button (click)="onSubmit()" [disabled]="!subdivisionScolaireForm.valid">
+        {{action=='new'?'Enregister':'Modifier'}}</button>
+</mat-dialog-actions>

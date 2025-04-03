@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Import du fichier contenant la liste des salariés</h2>
+<mat-dialog-content class="  sm:p-6 w-200">
+
+    <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".csv,.xls,xlsx">
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Annuler</button>
+    <button mat-button (click)="Upload()" cdkFocusInitial>Importation</button>
+</mat-dialog-actions>

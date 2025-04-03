@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{action=='new'?'Ajouter une salle de classe':'Modifier la salle de classe '+salleClasse.libelle}}</h2>
+<mat-dialog-content class="  sm:p-6 w-200">
+
+
+    <form class=" " [formGroup]="salleClasseForm">
+        <div class="flex flex-col w-full ">
+            <div class="flex">
+
+                <mat-form-field class="w-1/4 pr-1">
+                    <mat-label>Classe </mat-label>
+                    <mat-select [formControlName]="'classe_id'" required>
+                        <mat-option [value]="cl.id" *ngFor="let cl of listeClasse">{{cl.libelle}} [{{cl.code}}]</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-1/4 pl-2">
+                    <mat-label>Serie</mat-label>
+                    <mat-select [formControlName]="'serie'" required>
+                        <mat-option [value]="'A'">A</mat-option>
+                        <mat-option [value]="'D'">D</mat-option>
+                        <mat-option [value]="'C'">C</mat-option>
+                        <mat-option [value]="'AC'">AC</mat-option>
+                        <mat-option [value]="'G2'">G2</mat-option>
+                        <mat-option [value]="'A4'">A4</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="flex">
+                <mat-form-field class="w-1/4 pr-2">
+                    <mat-label>code</mat-label>
+                    <input matInput [formControlName]="'code'" required>
+                </mat-form-field>
+
+                <mat-form-field class="w-3/4 pl-2">
+                    <mat-label>Libelle</mat-label>
+                    <input matInput [formControlName]="'libelle'" required>
+                </mat-form-field>
+
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Annuler</button>
+    <button mat-button (click)="onSubmit()" [disabled]="!salleClasseForm.valid">
+        {{action=='new'?'Enregister':'Modifier'}}</button>
+</mat-dialog-actions>

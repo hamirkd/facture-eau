@@ -1,0 +1,162 @@
+<h2 mat-dialog-title>{{action=='new'?'Ajouter un personnel':'Modifier le personnel '+personnel.nom+' '+personnel.prenom}}</h2>
+<mat-dialog-content class="  sm:p-6 w-full">
+
+
+    <form class=" " [formGroup]="personnelForm">
+        <div class="flex flex-col w-full ">
+
+            <div class="flex">
+
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Type Personnel</mat-label>
+                    <mat-select [formControlName]="'typepersonnel'" required>
+                        <mat-option [value]="'FONCTIONNAIRE_ISSP'">FONCTIONNAIRE ISSP</mat-option>
+                        <mat-option [value]="'FONCTIONNAIRE_UJKZ'">FONCTIONNAIRE UJKZ</mat-option>
+                        <mat-option [value]="'FONCTIONNAIRE'">FONCTIONNAIRE</mat-option>
+                        <mat-option [value]="'FONCTIONNAIRE_ENSEIGNANT_CHERCHEUR'">ENSEIGNANT CHERCHEUR</mat-option>
+                        <mat-option [value]="'CONTRACTUELS_ISSP'">CONTRACTUELS ISSP</mat-option>
+                        <mat-option [value]="'CONTRACTUELS_UJKZ'">CONTRACTUELS UJKZ</mat-option>
+                        <mat-option [value]="'ASSISTANTS_RECHERCHE'">ASSISTANTS RECHERCHE</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-1/3 pl-2 pr-2">
+                    <mat-label>Matricule</mat-label>
+                    <input matInput [formControlName]="'matricule'" required>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex">
+
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Nom</mat-label>
+                    <input matInput [formControlName]="'nom'" required>
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3 pl-2 pr-2">
+                    <mat-label>Prénom(s)</mat-label>
+                    <input matInput [formControlName]="'prenom'" required>
+                </mat-form-field>
+
+            </div>
+            <div class="flex">
+
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Genre</mat-label>
+                    <mat-select [formControlName]="'genre'" required>
+                        <mat-option [value]="'HOMME'">HOMME</mat-option>
+                        <mat-option [value]="'FEMME'">FEMME</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3 pl-2 pr-2">
+                    <mat-label>Nationnalité</mat-label>
+                    <input type="text" matInput [formControlName]="'nationnalite'">
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3 pl-2">
+                    <mat-label>Situation matrimoniale</mat-label>
+                    <mat-select [formControlName]="'matrimoniale'" required>
+                        <mat-option [value]="'CELIBATAIRE'">CELIBATAIRE</mat-option>
+                        <mat-option [value]="'MARIE'">MARIE(E)</mat-option>
+                        <mat-option [value]="'DIVORCE'">DIVORCE(E)</mat-option>
+                        <mat-option [value]="'VEUF'">VEUF(VE)</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+            <div class="flex">
+
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Date naissance</mat-label>
+                    <input type="date" matInput [formControlName]="'datenais'" required>
+                </mat-form-field>
+                <mat-form-field class="w-1/3 pl-2 pr-2">
+                    <mat-label>Lieu de naissance</mat-label>
+                    <input type="text" matInput [formControlName]="'lieunais'">
+                </mat-form-field>
+
+            </div>
+ 
+
+            <div class="flex">
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Position</mat-label>
+                    <mat-select [formControlName]="'position'">
+                        <mat-option></mat-option>
+                        <mat-option [value]="'DISPONIBILITE'">DISPONIBILITE</mat-option>
+                        <mat-option *ngIf="personnelForm.get('typepersonnel').value?.includes('FONCTIONNAIRE')" [value]="'DETACHEMENT'">DETACHEMENT</mat-option>
+                        <mat-option *ngIf="personnelForm.get('typepersonnel').value?.includes('FONCTIONNAIRE')" [value]="'ACTIVITE'">ACTIVITE</mat-option>
+                        <mat-option *ngIf="!personnelForm.get('typepersonnel').value?.includes('FONCTIONNAIRE')" [value]="'SUSPENSION_CONTRAT'">SUSPENSION CONTRAT</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-1/3 pl-2 pr-2">
+                    <mat-label>Téléphone</mat-label>
+                    <input matInput [formControlName]="'telephone'">
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3 pl-2">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput [formControlName]="'email'">
+                </mat-form-field>
+
+            </div>
+            <div class="flex">
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Dernier niveau / Diplome</mat-label>
+                    <mat-select [formControlName]="'niveauetude'" required>
+                        <mat-option [value]="'BACCALAUREAT'">BACCALAUREAT</mat-option>
+                        <mat-option [value]="'LICENCE1'">LICENCE I</mat-option>
+                        <mat-option [value]="'LICENCE2'">LICENCE II</mat-option>
+                        <mat-option [value]="'LICENCE3'">LICENCE III</mat-option>
+                        <mat-option [value]="'MASTER1'">MASTER I</mat-option>
+                        <mat-option [value]="'MASTER2'">MASTER II</mat-option>
+                        <mat-option [value]="'DOCTORANT'">DOCTORANT</mat-option>
+                        <mat-option [value]="'DOCTORAT'">DOCTORAT</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Domaine discipline</mat-label>
+                    <input matInput [formControlName]="'domaine_discipline'">
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3 pl-2">
+                    <mat-label>Spécialité</mat-label>
+                    <input matInput [formControlName]="'specialite'">
+                </mat-form-field>
+
+            </div>
+            <div class="flex" *ngIf="personnelForm.get('typepersonnel').value?.includes('FONCTIONNAIRE')">
+                <mat-form-field class="w-1/3 pr-2">
+                    <mat-label>Date première prise de service</mat-label>
+                    <input type="date" matInput [formControlName]="'date_premiere_prise_service'">
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3 pl-2 pr-2">
+                    <mat-label>Salaire brute</mat-label>
+                    <input matInput [formControlName]="'salaire_brute'">
+                </mat-form-field>
+                <mat-form-field class="w-1/3  pl-2">
+                    <mat-label>Poste </mat-label>
+                    <mat-select [formControlName]="'poste_id'" required>
+                        <mat-option [value]="poste.id" *ngFor="let poste of listePoste">{{ poste.libelle }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+            <div class="flex">
+                <mat-form-field class="w-2/3 pr-2">
+                    <mat-label>Observation</mat-label>
+
+                    <textarea matInput [formControlName]="'observation'"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Annuler</button>
+    <button mat-button (click)="onSubmit()" [disabled]="!personnelForm.valid">
+        {{action=='new'?'Enregister':'Modifier'}}</button>
+</mat-dialog-actions>

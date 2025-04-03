@@ -1,0 +1,55 @@
+<div class="flex flex-auto flex-col   min-w-0 border-r">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pr-6 pl-6 pt-1 pb-1   sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="['/pedagogie']" routerLinkActive="router-link-active">Pedagogie</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-default-500">Régistre numérique</a>
+                </div>
+            </div>
+            <!-- Title -->
+        </div>
+    </div>
+
+    <div class="flex-auto pr-6 pl-6">
+        <div class="flex flex-col w-full">
+            <div class="flex">
+                <mat-form-field class="w-1/5 pr-2">
+                    <mat-label>Atteindre la salle de classe </mat-label>
+                    <mat-select [(ngModel)]="salle_classe_id" required>
+                        <mat-option [value]="cl.id" *ngFor="let cl of listeSalle">{{cl.libelle}} [{{cl.code}}]</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-1/5 pl-2">
+                    <mat-label>Atteindre le trimestre </mat-label>
+                    <mat-select required [(ngModel)]="trimestre" (ngModelChange)="changerTrimestre($event)">
+                        <mat-option *ngFor="let trimestre of listeSubdivisionScolaire" [value]="trimestre.code">{{trimestre.libelle}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w-1/5 pl-2">
+                    <mat-label>Atteindre type effort </mat-label>
+                    <mat-select required [(ngModel)]="meffort">
+                        <mat-option [value]="'MT'">Moyenne Travail</mat-option>
+                        <mat-option [value]="'MC'">Moyenne Composition</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="w-2/5 pl-2 text-left" style="align-self: center;">
+                    <button class="shadow rounded-2xl overflow-hidden cursor-pointer mt-2 ml-2 bg-card  bg-red-900" (click)="refresh()" mat-stroked-button>
+                    <mat-icon style="color: white;" svgIcon="iconsmind:refresh" [ngClass]="{'animate-spin-slow': btnRefresh==false}"></mat-icon> &nbsp;
+                    <label class="ml-0 cursor-pointer" style="color: white;"></label>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <app-eleve-moyenne *ngIf="actualiser['btnRefresh1']" [parent]="this" [salle_classe_id]="salle_classe_id" [annee_id]="annee_id" [trimestre]="trimestre" [trimestreObjet]="trimestreObjet" [meffort]="meffort"></app-eleve-moyenne>
+
+    </div>
+
+</div>

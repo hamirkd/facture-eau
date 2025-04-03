@@ -1,0 +1,76 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pr-6 pl-6 pt-1 pb-1   sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="['/scolarite']" routerLinkActive="router-link-active">Scolarite</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-default-500">Eleves inscrits</a>
+                </div>
+            </div>
+            <!-- Title -->
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="flex w-full min-w-0">
+
+            <div class="flex flex-col w-full">
+                <mat-form-field class="w-1/3">
+                    <mat-label>Rechercher</mat-label>
+                    <input matInput (ngModelChange)="recherche($event)" [formControl]="searchControl" [placeholder]="'Search for a page or a contact'">
+                </mat-form-field>
+                <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z1 w-full">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> Ordre </th>
+                        <td mat-cell *matCellDef="let element">{{element.id}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="matricule">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element">
+                            <a class="whitespace-nowrap text-primary-500" [routerLink]="['/pedagogie/eleve-classe-detail/'+element.eleve_id]" routerLinkActive="router-link-active">{{element.matricule}}</a>
+
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nomprenom">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom & Prénom </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nomprenom}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="genre">
+                        <th mat-header-cell *matHeaderCellDef> Genre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.genre}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="date_naissance">
+                        <th mat-header-cell *matHeaderCellDef> Date Nais </th>
+                        <td mat-cell *matCellDef="let element"> {{element.date_naissance|date:'d/MM/YYYY'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="telephone">
+                        <th mat-header-cell *matHeaderCellDef> Telephone </th>
+                        <td mat-cell *matCellDef="let element"> {{element.telephone}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="niveau">
+                        <th mat-header-cell *matHeaderCellDef> Niveau </th>
+                        <td mat-cell *matCellDef="let element"> {{element.classe}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nom_prenom_pere">
+                        <th mat-header-cell *matHeaderCellDef> Nom père </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nom_prenom_pere}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nom_prenom_mere">
+                        <th mat-header-cell *matHeaderCellDef> Nom mère </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nom_prenom_mere}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element;let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

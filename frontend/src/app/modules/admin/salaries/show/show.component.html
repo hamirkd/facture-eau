@@ -1,0 +1,144 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6  pt-10">
+        <!-- Title and action buttons -->
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <div class="text-3xl font-semibold tracking-tight leading-8">{{data.nom}} {{data.prenom}}</div>
+                <div class="font-medium tracking-tight text-secondary"> </div>
+            </div>
+            <div class="flex items-center ml-6">
+
+
+            </div>
+        </div>
+
+
+        <!-- CONTENT GOES HERE -->
+        <div class="border-dashed border-gray-300 rounded-2xl mt-10">
+
+            <!-- Card #25 -->
+            <fuse-card class="flex flex-col max-w-300 w-full px-8 pt-6 pb-4 filter-list">
+                <div class="flex items-center justify-between">
+                    <div class="text-2xl font-semibold leading-tight">Informations</div>
+                    <div class="-mr-3">
+                        <button mat-icon-button (click)="edit()">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col mt-5">
+                    <div class="flex flex-col w-full ">
+                        <div class="flex mb-3">
+
+                            <div class="w-1/2 pr-2 flex">
+                                <mat-label class="w-1/2 pr-2">Matricule : </mat-label>
+                                <mat-label class="w-1/2 pr-2">{{data.matricule}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2 flex">
+                                <mat-label class="w-1/2 pr-2">NIF : </mat-label>
+                                <mat-label class="w-1/2 pr-2">{{data.nif}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2 flex">
+                                <mat-label class="w-1/2 pr-2">Regime : </mat-label>
+                                <mat-label class="w-1/2 pr-2">{{data.nif}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <div class="w-1/2 pr-2 flex">
+                                <mat-label class="w-1/2 pr-2">nom : </mat-label>
+                                <mat-label class="w-1/2 pr-2">{{data.nom}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label class="w-1/2 pr-2">prenom : </mat-label>
+                                <mat-label class="w-1/2 pr-2">{{data.prenom}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <div class="w-1/2 pr-2 flex">
+                                <mat-label class="w-1/2 pr-2">emploi : </mat-label>
+                                <mat-label class="w-1/2 pr-2">{{data.emploi}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label>niveau : </mat-label>
+                                <mat-label>{{data.niveau}}</mat-label>
+                            </div>
+                        </div>
+
+                        <div class="flex mb-3">
+                            <div class="w-1/2 pr-2">
+                                <mat-label>nationalite : </mat-label>
+                                <mat-label>{{data.nationalite}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label>age : </mat-label>
+                                <mat-label>{{data.age}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <div class="w-1/2 pr-2">
+                                <mat-label>sexe : </mat-label>
+                                <mat-label>{{data.sexe}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label>enfants : </mat-label>
+                                <mat-label>{{data.enfants}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex  mb-3">
+                            <div class="w-1/2 pr-2">
+                                <mat-label>telephone : </mat-label>
+                                <mat-label>{{data.telephone}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label>code_postal : </mat-label>
+                                <mat-label>{{data.code_postal}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex  mb-3">
+                            <div class="w-1/3 pr-2">
+                                <mat-label>ville : </mat-label>
+                                <mat-label>{{data.ville}}</mat-label>
+                            </div>
+                            <div class="w-1/3 pl-2">
+                                <mat-label>emploi_occupe : </mat-label>
+                                <mat-label>{{data.emploi_occupe}}</mat-label>
+                            </div>
+                            <div class="w-1/3 pl-2">
+                                <mat-label>situation_familiale : </mat-label>
+                                <mat-label>{{data.situation_familiale}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <div class="w-1/2 pr-2">
+                                <mat-label>deb10 : </mat-label>
+                                <mat-label>{{data.deb10}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label>deb11 : </mat-label>
+                                <mat-label>{{data.deb11}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="flex  mb-3">
+                            <div class="w-1/2 pr-2">
+                                <mat-label>fin12 : </mat-label>
+                                <mat-label>{{data.fin12}}</mat-label>
+                            </div>
+                            <div class="w-1/2 pl-2">
+                                <mat-label>fin13das : </mat-label>
+                                <mat-label>{{data.fin13das}}</mat-label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fuse-card>
+
+        </div>
+
+    </div>
+
+</div>
