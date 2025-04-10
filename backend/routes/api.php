@@ -43,7 +43,7 @@ Route::group([
 
 
 Route::middleware('auth:api')->group(function() { 
-    Route::apiResource('tarifs', 'App\Http\Controllers\ScolariteController');
+    Route::apiResource('tarif', 'App\Http\Controllers\TarifController');
     Route::apiResource('versements', 'App\Http\Controllers\VersementController');
     Route::post('versements/getByAnneeInscription', [VersementController::class,'getByAnneeInscription']);
     Route::post('versements/getEleveDetailVersementByAnneeAndEleve', [VersementController::class,'getEleveDetailVersementByAnneeAndEleve']);
@@ -56,7 +56,11 @@ Route::middleware('auth:api')->group(function() {
     Route::post('facture/restore', 'App\Http\Controllers\FactureController@restore');
     Route::post('facture/cancelle', 'App\Http\Controllers\FactureController@cancelle');
     Route::post('facture/nouvelle', 'App\Http\Controllers\FactureController@nouvelle');
-
+    Route::post('facture/findBy', 'App\Http\Controllers\FactureController@findBy');
+    Route::post('facture/addMost', 'App\Http\Controllers\FactureController@addMost');
+    Route::post('facture/imprimer', 'App\Http\Controllers\FactureController@imprimer');
+    Route::post('facture/paye', 'App\Http\Controllers\FactureController@paye');
+    
     Route::apiResource('facture', 'App\Http\Controllers\FactureController');
     
     Route::post('client/uploadAvatar', 'App\Http\Controllers\ClientController@uploadAvatar');

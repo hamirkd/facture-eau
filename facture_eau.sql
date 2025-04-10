@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 03 avr. 2025 à 21:23
--- Version du serveur : 10.4.21-MariaDB
--- Version de PHP : 7.4.24
+-- Généré le : ven. 04 avr. 2025 à 02:57
+-- Version du serveur :  10.4.18-MariaDB
+-- Version de PHP : 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,7 +46,7 @@ CREATE TABLE `clients` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `cnib` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `numerocompteur` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ancienindex` int(11) DEFAULT NULL
+  `ancienindex` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -54,7 +54,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `nom`, `prenom`, `datenais`, `lieunais`, `telephone`, `email`, `observation`, `genre`, `typeclient`, `file_name`, `updated_by`, `created_by`, `deleted_at`, `created_at`, `updated_at`, `cnib`, `numerocompteur`, `ancienindex`) VALUES
-(1, 'DAO', 'Hamadou', '2025-04-03', 'Ouagadougou', '+226 74359156', 'daohamadou@gmail.com', 'JJJ', 'HOMME', 'ORDINAIRE', '', 1, 1, NULL, '2025-04-03 15:16:29', '2025-04-03 16:00:30', 'B24650039', '00001', NULL);
+(1, 'DAO', 'Hamadou', '2025-04-03', 'Ouagadougou', '+226 74359156', 'daohamadou@gmail.com', 'JJJ', 'HOMME', 'ORDINAIRE', '', 1, 1, NULL, '2025-04-03 15:16:29', '2025-04-03 23:30:38', 'B24650039', '00001', 15),
+(2, 'DABIRE', 'Julia', '2025-04-03', 'Test', NULL, NULL, NULL, 'FEMME', 'ORDINAIRE', '', 1, 1, NULL, '2025-04-03 22:45:20', '2025-04-03 23:48:17', NULL, '0001', 0);
 
 -- --------------------------------------------------------
 
@@ -67,6 +68,8 @@ CREATE TABLE `factures` (
   `client_id` int(11) DEFAULT NULL,
   `nom` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prenom` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `numerocompteur` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `typeclient` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `periode` date NOT NULL,
   `ancienindex` int(11) DEFAULT NULL,
   `nouveauindex` int(11) DEFAULT NULL,
@@ -76,7 +79,7 @@ CREATE TABLE `factures` (
   `montant` int(11) DEFAULT NULL,
   `redevance` int(11) DEFAULT NULL,
   `montanttotal` int(11) DEFAULT NULL,
-  `etat` enum('PAYE','NONPAYE','ANNULE') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `etat` enum('NONPAYE','PAYE','ANNULE') COLLATE utf8mb4_unicode_ci NOT NULL,
   `datepaiement` datetime DEFAULT NULL,
   `dateecheance` date DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
@@ -85,6 +88,21 @@ CREATE TABLE `factures` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `factures`
+--
+
+INSERT INTO `factures` (`id`, `client_id`, `nom`, `prenom`, `numerocompteur`, `typeclient`, `periode`, `ancienindex`, `nouveauindex`, `consommation`, `prixunitaire`, `tarif_id`, `montant`, `redevance`, `montanttotal`, `etat`, `datepaiement`, `dateecheance`, `updated_by`, `created_by`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 'DAO', 'Hamadou', '00001', 'ORDINAIRE', '2025-04-01', 0, 100, 100, 2000, 1, 200000, 1000, 201000, 'NONPAYE', NULL, NULL, 1, 1, '2025-04-03 22:55:27', '2025-04-03 20:47:39', '2025-04-03 22:55:27'),
+(2, 1, 'DAO', 'Hamadou', '00001', '', '2025-03-01', 0, 2, 2, 2000, 1, 4000, 1000, 5000, 'PAYE', NULL, NULL, 1, 1, '2025-04-03 23:25:55', '2025-04-03 22:45:37', '2025-04-03 23:25:55'),
+(3, 2, 'DABIRE', 'Julia', '0001', '', '2025-03-01', 15, 19, 4, 2000, 1, 8000, 1000, 9000, 'PAYE', NULL, NULL, 1, 1, '2025-04-03 23:25:55', '2025-04-03 22:45:37', '2025-04-03 23:25:55'),
+(4, 1, 'DAO', 'Hamadou', '', 'ORDINAIRE', '2025-04-01', 0, NULL, NULL, 2000, 1, NULL, 1000, NULL, 'PAYE', '2025-04-03 23:15:06', NULL, 1, 1, NULL, '2025-04-03 22:55:27', '2025-04-03 23:15:06'),
+(5, 2, 'DABIRE', 'Julia', '0001', 'ORDINAIRE', '2025-04-01', 15, NULL, NULL, 2000, 1, NULL, 1000, NULL, 'NONPAYE', NULL, NULL, 1, 1, NULL, '2025-04-03 22:55:27', '2025-04-03 23:48:17'),
+(6, 1, 'DAO', 'Hamadou', '', 'ORDINAIRE', '2025-02-01', 0, NULL, NULL, 2000, 1, NULL, 1000, NULL, 'NONPAYE', NULL, NULL, 1, 1, NULL, '2025-04-03 23:17:25', '2025-04-03 23:17:25'),
+(7, 2, 'DABIRE', 'Julia', '', 'ORDINAIRE', '2025-02-01', 15, NULL, NULL, 2000, 1, NULL, 1000, NULL, 'NONPAYE', NULL, NULL, 1, 1, NULL, '2025-04-03 23:17:25', '2025-04-03 23:17:25'),
+(8, 1, 'DAO', 'Hamadou', '00001', 'ORDINAIRE', '2025-03-01', 0, 15, 15, 2000, 1, 30000, 1000, 31000, 'NONPAYE', NULL, NULL, 1, 1, NULL, '2025-04-03 23:25:55', '2025-04-04 00:41:15'),
+(9, 2, 'DABIRE', 'Julia', '0001', 'ORDINAIRE', '2025-03-01', 15, 20, 5, 2000, 1, 10000, 1000, 11000, 'NONPAYE', NULL, NULL, 1, 1, NULL, '2025-04-03 23:25:55', '2025-04-03 23:30:38');
 
 -- --------------------------------------------------------
 
@@ -159,6 +177,14 @@ CREATE TABLE `tarifs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `tarifs`
+--
+
+INSERT INTO `tarifs` (`id`, `typetarif`, `montant`, `redevance`, `autres_frais`, `updated_by`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'ORDINAIRE', 2000, 1000, 0, NULL, NULL, '2025-04-03 19:53:38', '2025-04-03 19:53:38'),
+(3, 'ENTREPRISE', 5000, 1000, 0, 1, 1, '2025-04-03 20:39:49', '2025-04-03 20:41:49');
 
 -- --------------------------------------------------------
 
@@ -271,13 +297,13 @@ ALTER TABLE `versements`
 -- AUTO_INCREMENT pour la table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `factures`
 --
 ALTER TABLE `factures`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `medias`
@@ -295,7 +321,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT pour la table `tarifs`
 --
 ALTER TABLE `tarifs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `users`

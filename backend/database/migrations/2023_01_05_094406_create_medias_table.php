@@ -15,7 +15,7 @@ class CreateMediasTable extends Migration
     {
         Schema::create('medias', function (Blueprint $table) {
             $table->id();
-            $table->enum('type_documents', ['DEPENSES', 'SALAIRE','PROVISION','DOSSIERS_PERSONNELS','DOSSIERS_CONTRATS'])->nullable();
+            $table->enum('type_documents', ['DOSSIERS_CLIENTS'])->nullable();
             $table->integer('parent_id');
             $table->string('libelle_document',255);
             $table->string('file_name',255);

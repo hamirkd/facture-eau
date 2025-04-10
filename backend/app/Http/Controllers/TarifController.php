@@ -29,17 +29,25 @@ class TarifController extends Controller
      */
     public function store(Request $request)
     {
-        $eleve = $request->all();
-        if(isset($request['id'])&&$request['id']>0){
+        if(isset($request['id']) && $request['id']>0){
             $tarif = Tarif::find($request['id']);
-            $tarif->update($request->all());
+            $tarif->update(MyFunction::audit($request->all()));
             return response()->json([
                 'message' => "Le tarif a été mise à jour",
                 'status' => 200
             ], 200);
         }
-        else
-        Tarif::create($request->all());
+        else {
+            $tarif = Tarif::where('typetarif', '=', $request['typetarif'])->get();
+            if (count($tarif)>0) {
+                return response()->json([
+                    'message' => "Un tarif de ce type a déjà été enregistré",
+                    'status' => 409,
+                    'tarif' => $tarif
+                ], 409);
+            }
+            Tarif::create(MyFunction::audit($request->all()));
+        }
         return response()->json([
             'message' => 'Ajout d\'un tarif',
             'status' => 200

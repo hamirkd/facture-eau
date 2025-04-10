@@ -17,6 +17,8 @@ class Facture extends Model
     'client_id',
     'nom',
     'prenom',
+    'numerocompteur',
+    'typeclient',
     'periode',
     'ancienindex',
     'nouveauindex',
@@ -26,10 +28,17 @@ class Facture extends Model
     'montant',
     'redevance',
     'montanttotal',
-    'etat ',
+    'etat',
+    'cancelled_at',
+    'motif',
     'datepaiement',
     'dateecheance',
     'updated_by',
     'created_by'
     ];
+    public function getClientAttribute()
+    {
+        return Client::find($this->client_id);
+    }
+    protected $appends = ['client'];
 }

@@ -26,6 +26,9 @@ class Client extends Model
       'file_name',
       'cnib',
       'numerocompteur',
+      'ancienindex',
+      'longitude',
+      'latitude',
       'updated_by',
       'created_by',
     ];
