@@ -1,28 +1,25 @@
 ### Projet de Récupération des Index et Génération des Factures d'Eau pour les Fontaines
 #### Description
-Ce projet a pour objectif de récupérer les index de consommation d'eau des fontaines publiques et de générer automatiquement des factures d'eau. L'application permet de gérer la consommation d'eau pour chaque fontaine, de suivre les relevés des index de consommation, puis de générer des factures détaillées pour les utilisateurs ou les autorités responsables.
+Ce projet a pour objectif de  **récupérer les index de consommation d'eau** des fontaines publiques et de générer automatiquement des factures d'eau. L'application permet de gérer la consommation d'eau pour chaque fontaine, de suivre les relevés des index de consommation, puis de générer des factures détaillées pour les utilisateurs ou les autorités responsables.
 #### Fonctionnalités
-Récupération des Index de Consommation : L'application permet de récupérer les index de consommation des fontaines, qui peuvent être saisis manuellement.
+- **Récupération des Index de Consommation** : L'application permet de récupérer les index de consommation des fontaines, qui peuvent être saisis manuellement.
+- **Calcul Automatique des Factures** : En fonction de l'index de consommation, le système calcule automatiquement le montant à facturer pour chaque utilisateur ou chaque zone d'une fontaine.
+- **Génération des Factures** : Une fois les calculs effectués, des factures détaillées sont générées au format PDF ou tout autre format requis.
+- **Gestion des Utilisateurs** : Le système permet de gérer les utilisateurs ou les points de consommation d'eau, y compris l'historique de leurs relevés et factures.
+- **Rapports** : Des rapports détaillés peuvent être générés pour permettre un suivi facile de la consommation d'eau et des factures associées.
 
-Calcul Automatique des Factures : En fonction de l'index de consommation, le système calcule automatiquement le montant à facturer pour chaque abonné.
-
-Génération des Factures : Une fois les calculs effectués, des factures détaillées sont générées au format PDF.
-
-Gestion des Utilisateurs : Le système permet de gérer les utilisateurs ou les abonnés, y compris l'historique de leurs relevés et factures.
-
-Rapports : Des rapports détaillés peuvent être générés pour permettre un suivi facile de la consommation d'eau et des factures associées.
+### Démo
+Tu peux voir une démo en direct de l'application en suivant ce lien :
+[**Démo en direct**](http://geschool.ddns.net/facture-eau)
 
 #### Technologies Utilisées
-Langage de Programmation : PHP, JavaScript (Angular, Node.js)
-
-Base de Données : MySQL / PostgreSQL
-
-Outils de Génération de Factures : PDFLib ou TCPDF pour la génération des factures au format PDF
-
-Interface Utilisateur : Angular pour l'interface web
+- **Langage de Programmation** : PHP, JavaScript (Angular, Node.js)
+- **Base de Données** : MySQL / PostgreSQL
+- **Outils de Génération de Factures** : PDFLib ou TCPDF pour la génération des factures au format PDF
+- **Interface Utilisateur** : Angular pour l'interface web
 
 #### Installation
-Prérequis
+### Prérequis
 PHP 7.4 ou supérieur
 
 Node.js (pour la partie frontend)
@@ -35,6 +32,7 @@ NPM (pour les dépendances frontend)
 
 ### Étapes d'Installation
 1. Clonez le projet :
+```bash
 git clone https://github.com/votre-utilisateur/projet-fontaines.git
 2. Installez les dépendances PHP :
 cd projet-fontaines
@@ -54,7 +52,7 @@ php artisan migrate
 npm start
 php artisan serve
 7. Accédez à l'application via http://localhost:8000 (ou l'URL configurée).
-
+```
 ### Utilisation
 Récupérer un Index de Consommation
 Connectez-vous à l'application avec votre identifiant et mot de passe.
