@@ -62,7 +62,7 @@ php artisan migrate
 npm start
 php artisan serve
 ```
-7. Accédez à l'application via http://localhost:8000 (ou l'URL configurée).
+7. Accédez à l'application via http://localhost:4200 (ou l'URL configurée).
 
 ### Utilisation
 Récupérer un Index de Consommation
