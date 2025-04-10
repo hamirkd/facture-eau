@@ -43,14 +43,7 @@
                             <mat-icon style="color: white;" svgIcon="iconsmind:refresh" [ngClass]="{'animate-spin-slow': actualiser['btn1']}" *ngIf="actualiser['btn1']"></mat-icon> &nbsp;
                             <label class="ml-0 cursor-pointer" style="color: white;" *ngIf="!actualiser['btn1']">Rechercher</label>
                         </button>
-                    </div>
-                    <div class="mat-form-field flex flex-col w-1/6">
-                        <mat-label>&nbsp;</mat-label>
-                        <button (click)="ajouter()" class="shadow rounded-2xl overflow-hidden cursor-pointer mt-2 ml-2 bg-card  bg-red-900" mat-stroked-button>
-                            <mat-icon style="color: white;" svgIcon="iconsmind:refresh" [ngClass]="{'animate-spin-slow': actualiser['btn2']}" *ngIf="actualiser['btn2']"></mat-icon> &nbsp;
-                            <label class="ml-0 cursor-pointer" style="color: white;" *ngIf="!actualiser['btn2']">Ajouter</label>
-                        </button>
-                    </div>
+                    </div> 
                     <div class="mat-form-field flex flex-col w-1/6">
                         <mat-label>&nbsp;</mat-label>
                         <button (click)="exporter()" class="shadow rounded-2xl overflow-hidden cursor-pointer mt-2 ml-2 bg-card  bg-green-900" mat-stroked-button>
@@ -62,39 +55,78 @@
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 w-full">
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef> No. </th>
-                        <td mat-cell *matCellDef="let element">{{element.id}} </td>
+                        <td mat-cell *matCellDef="let element" class="text">{{element.id}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="inscription_id">
-                        <th mat-header-cell *matHeaderCellDef> Matricule </th>
-                        <td mat-cell *matCellDef="let element">
-                            <a class="whitespace-nowrap text-primary-500" [routerLink]="['/pedagogie/eleve-classe-detail/'+element.eleve_id]" routerLinkActive="router-link-active">{{element.matricule}}</a>
+                    <ng-container matColumnDef="nomprenom">
+                        <th mat-header-cell *matHeaderCellDef> Nom et Prénom </th>
+                        <td mat-cell *matCellDef="let element" class="text">
+                            <a class="whitespace-nowrap text-primary-500" [routerLink]="['/client/show/'+element.client_id]" routerLinkActive="router-link-active">{{element.nomprenom}}</a>
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="eleve_id">
-                        <th mat-header-cell *matHeaderCellDef> Eleve </th>
-                        <td mat-cell *matCellDef="let element"> {{element.nomprenom}}</td>
+                    <ng-container matColumnDef="numerocompteur">
+                        <th mat-header-cell *matHeaderCellDef> Compteur </th>
+                        <td mat-cell *matCellDef="let element" class="text"> {{element.numerocompteur}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="annee_id">
-                        <th mat-header-cell *matHeaderCellDef> Année </th>
-                        <td mat-cell *matCellDef="let element"> {{element.annee_id}} </td>
+                    <ng-container matColumnDef="typeclient">
+                        <th mat-header-cell *matHeaderCellDef> Type Client </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
+                                {{ element.typeclient|translate }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="etat">
+                        <th mat-header-cell *matHeaderCellDef> Etat </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="element.etat=='PAYE'" class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
+                                {{ element.etat|translate }}
+                            </span>
+                            <span *ngIf="element.etat!=='PAYE'" class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
+                                {{ element.etat|translate }}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="prixunitaire">
+                        <th mat-header-cell *matHeaderCellDef> Tarif </th>
+                        <td mat-cell *matCellDef="let element"  > {{element.prixunitaire}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ancienindex">
+                        <th mat-header-cell *matHeaderCellDef> Ancien index </th>
+                        <td mat-cell *matCellDef="let element"  class="center"> {{element?.ancienindex}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nouveauindex">
+                        <th mat-header-cell *matHeaderCellDef> Nouveau index </th>
+                        <td mat-cell *matCellDef="let element" style="width: 10%;">
+                            <input matInput  type="number" class="formy2 w-4/5"  (ngModelChange)="calcule($event, element)"  [(ngModel)]="element.nouveauindex">
+                         </td>
+                    </ng-container>
+                    <ng-container matColumnDef="consommation">
+                        <th mat-header-cell *matHeaderCellDef> consommation </th>
+                        <td mat-cell *matCellDef="let element">  {{element.consommation}}  </td>
                     </ng-container>
                     <ng-container matColumnDef="montant">
-                        <th mat-header-cell *matHeaderCellDef> montant </th>
-                        <td mat-cell *matCellDef="let element"> {{element.montant}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Montant </th>
+                        <td mat-cell *matCellDef="let element"> {{element.montant | number}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="dateversement">
-                        <th mat-header-cell *matHeaderCellDef> Date </th>
-                        <td mat-cell *matCellDef="let element"> {{element.dateversement|date:'d/MM/YYYY hh:mm'}} </td>
+                    <ng-container matColumnDef="redevance">
+                        <th mat-header-cell *matHeaderCellDef> Redevance </th>
+                        <td mat-cell *matCellDef="let element"> {{element.redevance | number}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="created_by">
-                        <th mat-header-cell *matHeaderCellDef> Auteur </th>
-                        <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
+                    <ng-container matColumnDef="montanttotal">
+                        <th mat-header-cell *matHeaderCellDef> Montant Net </th>
+                        <td mat-cell *matCellDef="let element"> {{element.montanttotal | number}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="periode">
+                        <th mat-header-cell *matHeaderCellDef> Periode </th>
+                        <td mat-cell *matCellDef="let element" class="center"> {{element.periode|date:'MM-YYYY'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef> Actions </th>
 
                         <td mat-cell *matCellDef="let element" class="text-justify" style="align-items: center;">
+                            <span  *ngIf="element.etat !=='PAYE'">
                             <span *ngIf="element.cancelled_at" class="shadow rounded-2xl overflow-hidden pr-2 pl-2 bg-card  bg-red-900 text-white" matTooltip="{{element.motif}} [{{element.cancelled_at}}]">annulé</span>
 
                             <button *ngIf="element.cancelled_at" class="hidden sm:inline-flex ml-3" mat-icon-button (click)="restorer(element)">
@@ -107,7 +139,13 @@
                             <button *ngIf="element.cancelled_at" class="hidden sm:inline-flex ml-3" mat-icon-button (click)="supprimer(element)">
                                 <mat-icon svgIcon="cancel"  class="text-red-900"></mat-icon> 
                             </button>
-
+                            <button  *ngIf="element.etat !=='PAYE'" class="hidden sm:inline-flex ml-3" mat-icon-button (click)="payer(element)">
+                                <mat-icon svgIcon="money"  class="text-green-900"></mat-icon> 
+                            </button>
+                        </span>
+                        <button  class="hidden sm:inline-flex ml-3" mat-icon-button (click)="imprimer(element)">
+                            <mat-icon svgIcon="print"  class="text-grey-900"></mat-icon> 
+                        </button>
 
                         </td>
                     </ng-container>

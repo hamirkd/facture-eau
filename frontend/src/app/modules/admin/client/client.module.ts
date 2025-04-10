@@ -7,7 +7,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { AddClientComponent } from './add-client/add-client.component';
 import { ListClientComponent } from './list-client/list-client.component';
 import { DetailClientComponent } from './detail-client/detail-client.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { GeolocationComponent } from './geolocation/geolocation.component';
+import { MediaAddComponent } from './media-add/media-add.component';
 
 
 const routes: Routes = [
@@ -19,13 +20,12 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ClientComponent,
-    AddClientComponent,ListClientComponent,DetailClientComponent,
+    AddClientComponent,ListClientComponent,DetailClientComponent, GeolocationComponent, MediaAddComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatIconModule,SharedModule, TranslateModule
-  ],
-  providers: [TranslateService]
+    MatIconModule,SharedModule
+  ]
 })
 export class ClientModule { }

@@ -46,8 +46,10 @@ export class NouvelleFactureComponent implements OnInit {
     
     anneeControl: FormControl = new FormControl();
     annee = moment().format('YYYY');
+    anneeActuelleL = ( Number(moment().format('YYYY'))-1) + '';
+    anneeActuelle = moment().format('YYYY');
+    anneeActuelleR =  ( Number(moment().format('YYYY')) + 1) + '';
 
-    factures: Facture[] = [];
     dataSource: MatTableDataSource<Facture> = new MatTableDataSource();
 
     displayedColumns: string[] = [
@@ -56,11 +58,13 @@ export class NouvelleFactureComponent implements OnInit {
         'numerocompteur',
         'typeclient',
         'prixunitaire',
+        'redevance',
         'ancienindex',
         'nouveauindex',
         'consommation',
+        'montant',
         'montanttotal',
-        'created_by',
+        'etat'
     ];
 
     recherche(textRecherche) {
@@ -71,9 +75,15 @@ export class NouvelleFactureComponent implements OnInit {
     
 
     calcule(textRecherche, element) {
-        textRecherche = textRecherche.trim(); // Remove whitespace
-        textRecherche = textRecherche.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-        this.dataSource.filter = textRecherche;
+        if(textRecherche) {
+            element.consommation = textRecherche - element.ancienindex;
+            element.montanttotal = element.consommation * element.prixunitaire + element.redevance;
+            element.montant = element.consommation * element.prixunitaire;
+        } else {
+            element.consommation = undefined;
+            element.montanttotal = undefined;
+            element.montant = undefined;
+        }
     }
     ngOnInit(): void {
         this._updateDataSource();
@@ -81,12 +91,14 @@ export class NouvelleFactureComponent implements OnInit {
     _updateDataSource() {
         this._factureService
             .findBy({
-                periode: this.periode
+                 periode : this.annee + '-' + this.mois + '-01'
             })
             .subscribe((data) => {
-                this.factures = data as Facture[]; 
-                this.dataSource.data = this.factures;
-                console.log(data)
+                this.dataSource.data = data as Facture[];
+                this.dataSource.data.forEach(da => {
+                    da['nomprenom'] = da.nom + ' ' + da.prenom;
+                    da['numerocompteur'] = da.client?.numerocompteur;
+                })
             });
     }
     rechercherButton() {
@@ -134,7 +146,13 @@ export class NouvelleFactureComponent implements OnInit {
                     console.log(d);
                 },
                 (err) => {
-                    console.log(err);
+                    
+                        this._snackBar.open(err.error.message, 'Splash', {
+                            horizontalPosition: 'right',
+                            verticalPosition: 'top',
+                            duration:2000
+                            });
+                    
                 }
             );
         });
@@ -156,6 +174,12 @@ export class NouvelleFactureComponent implements OnInit {
                     .subscribe((data) => {
                         console.log(data);
                         this._updateDataSource();
+                    },err=>{
+                        this._snackBar.open(err.error.message, 'Splash', {
+                            horizontalPosition: 'right',
+                            verticalPosition: 'top',
+                            duration:2000
+                            });
                     });
             }
         });
@@ -164,7 +188,7 @@ export class NouvelleFactureComponent implements OnInit {
         this.dialogRef = this._fuseConfirmationService.open({
             title: 'Voulez vous générer les factures',
             message:
-                'Voulez-vous supprimer les factures de la période '
+                'Voulez-vous générer les factures de la période '
                 + this.mois + ' ' + this.annee + ' ?',
         });
 
@@ -177,13 +201,86 @@ export class NouvelleFactureComponent implements OnInit {
                     })
                     .subscribe((data) => {
                         this._updateDataSource();
+                    },err=>{
+                        this._snackBar.open(err.error.message, 'Splash', {
+                            horizontalPosition: 'right',
+                            verticalPosition: 'top',
+                            duration:10000
+                            });
                     });
             }
         });
     }
+    regenerer() {
+        this.dialogRef = this._fuseConfirmationService.open({
+            title: 'Voulez vous générer les factures',
+            message:
+                'Voulez-vous supprimer et recréer les factures de la période '
+                + this.mois + ' ' + this.annee + ' ?',
+        });
+
+        this.dialogRef.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                //***DELETE ONE */
+                this._factureService
+                    .findByNouvelleFacture({
+                        periode : this.annee + '-' + this.mois + '-01',
+                        type: 'REGENERE'
+                    })
+                    .subscribe((data) => {
+                        this._updateDataSource();
+                    },err=>{
+                        this._snackBar.open(err.error.message, 'Splash', {
+                            horizontalPosition: 'right',
+                            verticalPosition: 'top',
+                            duration:10000
+                            });
+                    });
+            }
+        });
+    }
+
+    
+    sauvegarder() {
+        this._factureService
+            .addMost(this.dataSource.data)
+            .subscribe((data) => {
+                this._updateDataSource();
+                this._snackBar.open(data.message, 'Splash', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    duration:2000
+                  });
+            },err=>{
+                
+                this._snackBar.open(err.error.message, 'Splash', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    duration:10000
+                  });
+            });
+             
+    }
+    imprimer() {
+        this._factureService
+            .imprimerFacture({
+                 periode : this.annee + '-' + this.mois + '-01'
+            })
+            .subscribe((data: Blob)=>{
+                const fileUrl = URL.createObjectURL(data);
+                // Ouvrir le fichier dans un nouvel onglet
+                window.open(fileUrl, '_blank');
+                this.actualiser['btn2'] = false;
+                this._snackBar.open('Téléchargement terminé', 'Splash', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
+            });
+    }
     
     exporter(){
-        if(!this.factures||this.factures.length==0){
+        if(!this.dataSource.data||this.dataSource.data.length==0){
         
             this._snackBar.open('Veuillez revoir les données', 'Splash', {
                 horizontalPosition: 'right',
@@ -192,12 +289,19 @@ export class NouvelleFactureComponent implements OnInit {
                 });
         return;
         }
-        let listeAImprimer: {matricule,nomprenom,montant,datefacture}[]=[];
-        this.factures.forEach(o=>listeAImprimer.push({matricule:o['matricule'],nomprenom:o['nomprenom'],
-        montant:o['montant'],datefacture:o['datefacture']}));
+        let listeAImprimer: any[]=[];
+        this.dataSource.data.forEach(o=>listeAImprimer.push({
+            numerocompteur:o['numerocompteur'],
+            nomprenom:o['nomprenom'],
+            montant:o['montant'],
+            periode:o['periode'],
+            ancienindex:o['ancienindex'],
+            nouveauindex:o['nouveauindex'],
+            consommation:o['consommation'],
+        }));
   
         var blob = new Blob([this.convertToCSV(listeAImprimer)], {type: "text/csv;charset=utf-8"});
-        FileSaver.saveAs(blob,"paiement-liste.csv");
+        FileSaver.saveAs(blob,"facture-liste.csv");
     }
 
     convertToCSV(arr) {

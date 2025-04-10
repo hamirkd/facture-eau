@@ -45,11 +45,17 @@ export class FactureComponent implements OnInit {
 
     displayedColumns: string[] = [
         'id',
-        'inscription_id',
-        'eleve_id',
+        'nomprenom',
+        'numerocompteur',
+        'typeclient',
+        'prixunitaire',
+        'redevance',
+        'ancienindex',
+        'nouveauindex',
+        'consommation',
         'montant',
-        'dateversement',
-        'created_by',
+        'montanttotal',
+        'etat',
         'actions',
     ];
 
@@ -69,8 +75,12 @@ export class FactureComponent implements OnInit {
             })
             .subscribe((data) => {
                 this.factures = data as Facture[]; 
-                this.dataSource.data = this.factures;
-                console.log(data)
+                this.dataSource.data = data as Facture[];
+
+                this.dataSource.data.forEach(da => {
+                    da['nomprenom'] = da.nom + ' ' + da.prenom;
+                    da['numerocompteur'] = da.client?.numerocompteur;
+                })
             });
     }
     rechercherButton() {
@@ -123,6 +133,32 @@ export class FactureComponent implements OnInit {
             );
         });
     }
+    
+    payer(element: Facture) {
+        this.dialogRef = this._fuseConfirmationService.open({
+            title: 'Paiement de facture',
+            message:
+                'Voulez-vous payer la facture N ' + element.id + ' ?',
+        });
+
+        this.dialogRef.afterClosed().subscribe((response: any) => {
+            if (!response) {
+                return;
+            }
+            if (response === 'confirmed') {
+            console.log(response);
+            this.factureService.paye(element).subscribe(
+                (d) => {
+                    this._updateDataSource();
+                    console.log(d);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
+        });
+    }
 
     supprimer(element: Facture) {
         this.dialogRef = this._fuseConfirmationService.open({
@@ -144,23 +180,23 @@ export class FactureComponent implements OnInit {
             }
         });
     }
-    ajouter(){
-        // this.dialogRef = this._matDialog.open(
-        //     PaiementComponent,
-        //     {
-        //         data: {
-        //             versement: {},
-        //         },
-        //     }
-        // );
-
-        this.dialogRef.afterClosed().subscribe((response: any) => {
-            if (!response) {
-                return;
-            } 
-                    this._updateDataSource();
-                    
-        });
+    
+    imprimer(element) {
+        this.factureService
+            .imprimerFacture({
+                 id : element.id
+            })
+            .subscribe((data: Blob)=>{
+                const fileUrl = URL.createObjectURL(data);
+                // Ouvrir le fichier dans un nouvel onglet
+                window.open(fileUrl, '_blank');
+                this.actualiser['btn2'] = false;
+                this._snackBar.open('Téléchargement terminé', 'Splash', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
+            });
     }
     
     exporter(){

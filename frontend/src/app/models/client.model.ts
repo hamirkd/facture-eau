@@ -13,6 +13,10 @@ export class Client {
     numerocompteur:string;
     cnib:string;
     lieunais: string;
+    ancienindex: number;
+    longitude: number;
+    latitude: number;
+
     
     updated_by:any;
     created_by:any;
@@ -39,5 +43,8 @@ export class Client {
         this.created_by = client.created_by;
         this.updated_at = client.updated_at;
         this.created_at = client.created_at;
+        this.ancienindex = client.ancienindex;
+        this.longitude = client.longitude;
+        this.latitude = client.latitude;
     }
 }

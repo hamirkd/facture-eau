@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
@@ -17,7 +17,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {  NgxCsvParserModule } from 'ngx-csv-parser';
 import {  TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {  TranslateHttpLoader } from '@ngx-translate/http-loader';
- 
+import localeFr from '@angular/common/locales/fr';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeFr); // Enregistre la locale française
+
 
 
  
@@ -66,7 +69,10 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     bootstrap   : [
         AppComponent
-    ]
+    ],
+    providers: [
+        { provide: LOCALE_ID, useValue: 'fr' } // Définit la locale par défaut en français
+      ]
 })
 export class AppModule
 {

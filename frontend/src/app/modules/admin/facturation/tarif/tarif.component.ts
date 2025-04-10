@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Tarif } from 'app/models/tarif.model';
 import { AddTarifComponent } from './add-tarif/add-tarif.component';
 import { TarifService } from 'app/core/services/tarif.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'app-tarif',
@@ -13,6 +15,7 @@ import { TarifService } from 'app/core/services/tarif.service';
 })
 export class TarifComponent implements OnInit {
   constructor(
+                  private _fuseConfirmationService: FuseConfirmationService,
       private _matDialog: MatDialog,
       private _tarifService: TarifService
   ) {}
@@ -23,7 +26,7 @@ export class TarifComponent implements OnInit {
   dataSource: MatTableDataSource<Tarif> = new MatTableDataSource();
 
   displayedColumns: string[] = [
-      'id',
+      'typetarif',
       'montant',
       'redevance',
       'autres_frais',
@@ -42,17 +45,18 @@ export class TarifComponent implements OnInit {
   
   _updateDataSource(){
     this._tarifService.getAll().subscribe(data=>{
+        console.log(data)
         this.dataSource.data = data;
         console.log(data)
       })
   }
   
-  editer(salleClasse): void
+  editer(tarif): void
   {
       this.dialogRef = this._matDialog.open(AddTarifComponent, {
           panelClass: '',
           data      : {
-              salleClasse:salleClasse,
+              tarif,
               action: 'edit'
           } 
       });
@@ -73,7 +77,7 @@ export class TarifComponent implements OnInit {
       this.dialogRef = this._matDialog.open(AddTarifComponent, {
           panelClass: '',
           data      : {
-              salleClasse:{},
+              tarif:{},
               action: 'new'
           } 
       });
@@ -88,10 +92,28 @@ export class TarifComponent implements OnInit {
               this._updateDataSource();
           });
   }
-  supprimer(element: Tarif) {
-    this._tarifService.delete(element).subscribe(data=>{
-        this.dataSource.data = data;
-        console.log(data)
-      })
-  }
+  supprimer(element: Tarif){
+    this.dialogRef = this._fuseConfirmationService.open({
+        title: 'Suppression tarification',
+        actions: {
+            confirm: {
+                label: 'Confirmer',
+                color: 'primary' ,
+            },
+            cancel: {
+                label: 'Annuler'
+            }
+        },
+        message:
+            'Voulez-vous supprimer le tarif N ' + element.typetarif + ' ?',
+    });
+
+    this.dialogRef.afterClosed().subscribe((response) => {
+        if (response === 'confirmed') {
+            //***DELETE ONE */
+            this._tarifService.delete(element).subscribe((data) => {
+            });
+        }
+    });
+}
 }

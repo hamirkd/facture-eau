@@ -8,7 +8,7 @@ export class Tarif {
 
     constructor(tarif) {
         this.id = tarif.id
-        this.autres_frais = tarif.autres_frais
+        this.redevance = tarif.redevance
         this.montant = tarif.montant
         this.autres_frais = tarif.autres_frais
         this.typetarif = tarif.typetarif

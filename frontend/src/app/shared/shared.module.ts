@@ -27,12 +27,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule,MatButtonModule
+        ReactiveFormsModule, MatButtonModule
     ],
     exports: [
         CommonModule,
@@ -63,9 +64,10 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
         MatDialogModule,
         MatOptionModule,
         MatSelectModule,MatSnackBarModule,
-        MatNativeDateModule, MatMomentDateModule
+        MatNativeDateModule, MatMomentDateModule, TranslateModule
 
-    ]
+    ],
+    providers: [TranslateService]
 })
 export class SharedModule
 {

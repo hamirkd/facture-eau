@@ -41,7 +41,7 @@ export class ApiService {
     }
     
     getUrlTo(url:string): string{
-      return environment.urlApi+url+'?token='+localStorage.getItem('accessToken') ?? '';
+      return environment.urlApi+url+'?token='+ (localStorage.getItem('accessToken') ?? '');
     }
 
 }

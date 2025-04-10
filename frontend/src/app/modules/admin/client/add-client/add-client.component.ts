@@ -17,6 +17,7 @@ export class AddClientComponent implements OnInit {
     action: 'edit' | 'new' = 'new';
 
     formFieldHelpers: string[] = [''];
+    precision: number = 0;
     constructor(
         private _formBuilder: FormBuilder,
         @Inject(MAT_DIALOG_DATA) private _data: any,
@@ -27,7 +28,7 @@ export class AddClientComponent implements OnInit {
         this.action = _data.action;
         this.clientForm = this.createClientForm();
     }
-    clientForm: any;
+    clientForm: FormGroup;
 
     ngOnInit(): void {
     }
@@ -51,6 +52,10 @@ export class AddClientComponent implements OnInit {
         cnib:[this.client.cnib],
         numerocompteur:[this.client.numerocompteur],
         lieunais:[this.client.lieunais],
+        ancienindex:[this.client.ancienindex],
+        longitude:[this.client.longitude],
+        latitude:[this.client.latitude],
+        
     });
     }
 
@@ -98,4 +103,38 @@ export class AddClientComponent implements OnInit {
                 });
         }
     }
+    getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            position => {
+              this.clientForm.get('latitude').setValue(position.coords.latitude);
+              this.clientForm.get('longitude').setValue(position.coords.longitude);
+            //   this.longitude = position.coords.longitude;
+            //   this.locationFetched = true;
+            this.precision = position.coords.accuracy;
+            },
+            error => {
+              console.error('Erreur de géolocalisation :', error);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 0
+            }
+          );
+        } else {
+          alert("La géolocalisation n'est pas supportée.");
+        }
+      }
+      openInGoogleMaps() {
+        const lat = this.clientForm.get('latitude')?.value;
+        const lng = this.clientForm.get('longitude')?.value;
+      
+        if (lat && lng) {
+          const url = `https://www.google.com/maps?q=${lat},${lng}`;
+          window.open(url, '_blank'); // ← Ouvre dans un nouvel onglet
+        } else {
+          alert("Les coordonnées ne sont pas disponibles.");
+        }
+      }
 }

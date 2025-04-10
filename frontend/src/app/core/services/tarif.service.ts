@@ -10,22 +10,22 @@ export class TarifService {
     constructor(private apiService: ApiService) {}
 
     getAll(): Observable<any[]> {
-      return this.apiService.get('api/tarifs');
+      return this.apiService.get('api/tarif');
     }
 
     delete(tarif: Tarif): Observable<any> {
-        return this.apiService.delete('api/tarifs/' + tarif.id);
+        return this.apiService.delete('api/tarif/' + tarif.id);
     }
 
-    add(tarif: Tarif): Observable<Tarif> {
+    add(tarif: Tarif): Observable<any> {
         return this.apiService.post('api/tarif', tarif);
     }
 
-    update(tarif: Tarif): Observable<Tarif> {
-        return this.apiService.put('api/tarifs/' + tarif.id, tarif);
+    update(tarif: Tarif): Observable<any> {
+        return this.apiService.put('api/tarif/' + tarif.id, tarif);
     }
 
     get(id): Observable<Tarif> {
-        return this.apiService.get('api/tarifs/' + id);
+        return this.apiService.get('api/tarif/' + id);
     }
 }

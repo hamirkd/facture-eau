@@ -18,6 +18,9 @@ import { ClientService } from 'app/core/services/client.service';
 import { Client } from 'app/models/client.model';
 import { AddClientComponent } from '../add-client/add-client.component';
 import { ActivatedRoute } from '@angular/router';
+import { Facture } from 'app/models/facture.model';
+import { FactureService } from 'app/core/services/facture.service';
+import { MediaAddComponent } from '../media-add/media-add.component';
 
 @Component({
     selector: 'app-detail-client',
@@ -27,12 +30,7 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailClientComponent implements OnInit {
     @ViewChild('supportNgForm') supportNgForm: NgForm;
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
-    displayedColumnsFacture: string[] = [
-        'categorie',
-        'echelon',
-        'datedebut',
-        'actions',
-    ];
+    
     client: Client = new Client({});
     data = {};
     client_id;
@@ -40,7 +38,7 @@ export class DetailClientComponent implements OnInit {
     editMode: boolean = false;
     userAvatarForm = new FormControl('');
 
-    dataSourceFacture: MatTableDataSource<{}> = new MatTableDataSource();
+    dataSourceFacture: MatTableDataSource<Facture> = new MatTableDataSource();
     dataSourceDocument: MatTableDataSource<{}> = new MatTableDataSource();
     displayedColumnsDocument: string[] = [
         // 'type_documents',
@@ -49,9 +47,23 @@ export class DetailClientComponent implements OnInit {
         'created_at',
         'actions',
     ];
+    displayedColumnsFacture: string[] = [
+        'id',
+        'periode',
+        'prixunitaire',
+        'redevance',
+        'ancienindex',
+        'nouveauindex',
+        'consommation',
+        'montant',
+        'montanttotal',
+        'etat',
+        'actions'
+    ];
     
     token;
     urlForBackend;
+    montant: { nonpaye: number; paye: number; } = {nonpaye:0, paye:0};
     constructor(
         private _clientService: ClientService,
         private _matDialog: MatDialog,
@@ -60,6 +72,7 @@ export class DetailClientComponent implements OnInit {
         private _authService: AuthService,
         private _mediaService: MediaService,
         private route: ActivatedRoute,
+        private _factureService:FactureService
 
     ) {
         this.token = this._authService.accessToken;
@@ -74,6 +87,7 @@ export class DetailClientComponent implements OnInit {
     ngOnInit(): void {
         this._updateDataSource();
         this._updateDataSourceDocument();
+        this._updateDataSourceFacture();
     }
     _updateDataSource() {
         this._clientService.get(this.client_id).subscribe(data=>{
@@ -154,6 +168,32 @@ export class DetailClientComponent implements OnInit {
                 console.log(this.client);
             });
     } 
+    
+    payer(element: Facture) {
+        this.dialogRef = this._fuseConfirmationService.open({
+            title: 'Paiement de facture',
+            message:
+                'Voulez-vous payer la facture N ' + element.id + ' ?',
+        });
+
+        this.dialogRef.afterClosed().subscribe((response: any) => {
+            if (!response) {
+                return;
+            }
+            if (response === 'confirmed') {
+            console.log(response);
+            this._factureService.paye(element).subscribe(
+                (d) => {
+                    this._updateDataSourceFacture();
+                    console.log(d);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
+        });
+    }
  
 
     supprimerContrat(element) {
@@ -174,7 +214,7 @@ export class DetailClientComponent implements OnInit {
     _updateDataSourceDocument() {
         this._mediaService
             .getMediaByTypeAndId({
-                type_documents: 'DOSSIERS_PERSONNELS',
+                type_documents: 'DOSSIERS_CLIENTS',
                 parent_id: this.client_id,
             })
             .subscribe((d) => {
@@ -182,15 +222,15 @@ export class DetailClientComponent implements OnInit {
             });
     }
     addDocument(): void {
-        // this.dialogRef = this._matDialog.open(MediaAddComponent, {
-        //     panelClass: '',
-        //     data: {
-        //         media: {
-        //             type_documents: 'DOSSIERS_PERSONNELS',
-        //             parent_id: this.client_id,
-        //         },
-        //     },
-        // });
+        this.dialogRef = this._matDialog.open(MediaAddComponent, {
+            panelClass: '',
+            data: {
+                media: {
+                    type_documents: 'DOSSIERS_CLIENTS',
+                    parent_id: this.client_id,
+                },
+            },
+        });
 
         this.dialogRef.afterClosed().subscribe((response: FormGroup) => {
             if (!response) {
@@ -199,6 +239,45 @@ export class DetailClientComponent implements OnInit {
 
             this._updateDataSourceDocument();
         });
+    }
+    
+    imprimer() {
+        this.data['btnadd'] = true;
+
+        this._factureService
+            .imprimerFacture({
+                 client_id : this.client_id
+            })
+            .subscribe((data: Blob)=>{
+                const fileUrl = URL.createObjectURL(data);
+                // Ouvrir le fichier dans un nouvel onglet
+                window.open(fileUrl, '_blank');
+                this.data['btnadd'] = false;
+                this._snackBar.open('Téléchargement terminé', 'Splash', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
+            });
+    }
+    
+    imprimerUn(element) {
+ 
+        this._factureService
+            .imprimerFacture({
+                 id : element.id
+            })
+            .subscribe((data: Blob)=>{
+                const fileUrl = URL.createObjectURL(data);
+                // Ouvrir le fichier dans un nouvel onglet
+                window.open(fileUrl, '_blank');
+                this.data['btnadd'] = false;
+                this._snackBar.open('Téléchargement terminé', 'Splash', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
+            });
     }
 
     supprimerDocument(element: Media) {
@@ -248,6 +327,37 @@ export class DetailClientComponent implements OnInit {
     imprimerFacture(element) {
 
     }
+    
+      _updateDataSourceFacture() {
+        this._factureService
+            .findBy({
+                 client_id:this.client_id
+            })
+            .subscribe((data) => {
+                this.dataSourceFacture.data = data as Facture[];
+                this.montant ={nonpaye:0, paye:0};
+                this.dataSourceFacture.data.forEach(da => {
+                    da['nomprenom'] = da.nom + ' ' + da.prenom;
+                    da['numerocompteur'] = da.client?.numerocompteur;
+                    if (da.etat == 'PAYE') {
+                        this.montant.paye = this.montant.paye + Number(da.montanttotal ?? 0);
+                    } else {
+                        this.montant.nonpaye = this.montant.nonpaye + Number(da.montanttotal ?? 0);
+                    }
+                })
+            });
+    }
  
+    openInGoogleMaps() {
+        const lat = this.client.latitude;
+        const lng = this.client.longitude;
+      
+        if (lat && lng) {
+          const url = `https://www.google.com/maps?q=${lat},${lng}`;
+          window.open(url, '_blank'); // ← Ouvre dans un nouvel onglet
+        } else {
+          alert("Les coordonnées ne sont pas disponibles.");
+        }
+      }
  
 }

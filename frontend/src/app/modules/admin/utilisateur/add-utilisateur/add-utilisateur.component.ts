@@ -17,7 +17,7 @@ export class AddUtilisateurComponent implements OnInit  {
   utilisateur: Utilisateur;
   action: 'edit' | 'new' = 'new';
   user:any;
-  roles = ['USER', 'SCOLARITE','DIRECTEUR','ENSEIGNANT','SECRETARIAT'];
+  roles = ['USER', 'AGENT'];
   formFieldHelpers: string[] = [''];
   constructor(
       private _formBuilder: FormBuilder,
