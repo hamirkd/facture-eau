@@ -34,25 +34,36 @@ NPM (pour les dépendances frontend)
 1. Clonez le projet :
 ```bash
 git clone https://github.com/votre-utilisateur/projet-fontaines.git
+```
 2. Installez les dépendances PHP :
+```bash
 cd projet-fontaines
 composer install
+```
 3. Installez les dépendances frontend :
+```bash
 npm install
+```
 4. Configurez la base de données dans le fichier .env (exemple pour MySQL) :
+```bash
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=fontaines_db
 DB_USERNAME=root
 DB_PASSWORD=
+```
 5. Créez et migrez les tables de la base de données :
+```bash
 php artisan migrate
+```
 6. Démarrez le serveur de développement :
+```bash
 npm start
 php artisan serve
-7. Accédez à l'application via http://localhost:8000 (ou l'URL configurée).
 ```
+7. Accédez à l'application via http://localhost:8000 (ou l'URL configurée).
+
 ### Utilisation
 Récupérer un Index de Consommation
 Connectez-vous à l'application avec votre identifiant et mot de passe.
