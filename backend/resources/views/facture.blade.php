@@ -39,13 +39,9 @@
             </tr>
             <tr>
                 <td><strong>Période :</strong></td>
-                <td>{{$data->periode }}
+                <td>{{dateToPeriode($data->periode) }}
 
-                <?php
-                setlocale(LC_TIME, 'fr_FR.UTF-8');
-                $formattedDate = strftime('%B %Y', strtotime($data->periode)); // Ex: Avril 2025
-                echo $formattedDate;
-                ?>
+                 
                 </td>
             </tr>
             <tr>

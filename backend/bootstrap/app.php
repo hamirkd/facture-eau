@@ -14,7 +14,35 @@
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
+if (!function_exists('formatDateToFrench')) {
+    function formatDateToFrench($date)
+    {
+        //setlocale(LC_TIME, 'french');
+        $dateObject = DateTime::createFromFormat('Y-m-d', $date);
+        if (!$dateObject) {
+            return "Date invalide";
+        }
+        return strftime('%M %Y', $dateObject->getTimestamp());
+    }
+}
+if (!function_exists('dateToPeriode')) {
+    function dateToPeriode($dateParem) {
+        // Création de l'objet DateTime
+        $date = DateTime::createFromFormat('Y-m-d', $dateParem);
 
+        // Récupération du premier jour du mois
+        $dateDebutFormatee = $date->format('d-m-Y');
+
+        // Clonage pour ne pas modifier l'original
+        $dateFin = clone $date;
+
+        // Aller au dernier jour du mois
+        $dateFin->modify('last day of this month');
+        $dateFinFormatee = $dateFin->format('d-m-Y');
+        // Affichage de la période
+        return "$dateDebutFormatee au $dateFinFormatee";
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
